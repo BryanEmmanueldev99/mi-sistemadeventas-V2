@@ -19,7 +19,7 @@
             @endif
 
             <a class="btn btn-primary" href="{{ route('proveedor.create') }}">Agregar un nuevo proveedor</a>
-            <table class="table table-primary mt-3">
+            <table class="table table-primary mt-3" id="proveedores_datatables">
                 <thead>
                     <tr>
                         <th scope="col">Proveedor</th>
@@ -79,6 +79,66 @@
             </table>
 
         </div>
+
+        <script>
+            let table = new DataTable('#proveedores_datatables', {
+                "pageLength": 5,
+                layout: {
+                    topStart: {
+                        buttons: ['copy', 'csv', /*'excel',*/ 'pdf', 'print']
+                    }
+                },
+                "language": {
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Proveedores",
+                    "infoEmpty": "Mostrando 0 a 0 de 0 Proveedores",
+                    "infoFiltered": "(Filtrado de _MAX_ total Proveedores)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Generar Reportes",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscador:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        //   "next": "Siguiente",
+                        //   "previous": "Anterior"
+                    }
+                },
+                
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": true,
+            });
+            // $("#usuarios").DataTable({
+            //   "pageLength": 5,
+            //   "language": {
+            //     "emptyTable": "No hay información",
+            //     "info": "Mostrando _START_ a _END_ de _TOTAL_ Proveedores",
+            //     "infoEmpty": "Mostrando 0 a 0 de 0 Proveedores",
+            //     "infoFiltered": "(Filtrado de _MAX_ total Proveedores)",
+            //     "infoPostFix": "",
+            //     "thousands": ",",
+            //     "lengthMenu": "Mostrar _MENU_ Generar Reportes",
+            //     "loadingRecords": "Cargando...",
+            //     "processing": "Procesando...",
+            //     "search": "Buscador:",
+            //     "zeroRecords": "Sin resultados encontrados",
+            //     "paginate": {
+            //       "first": "Primero",
+            //       "last": "Ultimo",
+            //       "next": "Siguiente",
+            //       "previous": "Anterior"
+            //     }
+            //   },
+            //   "responsive": true,
+            //   "lengthChange": true,
+            //   "autoWidth": false,
+            //   "buttons": ["copy", "csv", "excel", "pdf", "print"]
+            // }).buttons().container().appendTo('#usuarios .col-md-6:eq(0)');
+        </script>
     @else
         <p>No existe sesión</p>
     @endif

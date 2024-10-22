@@ -2,7 +2,7 @@
 @section('content')
     @if (session('session_start_usuario'))
         <div class="container p3 mb-3">
-            <h2>Modulo productos</h2>
+            <h2>Modulo categorias</h2>
         </div>
         <div class="table-responsive mt-3">
 
@@ -18,46 +18,36 @@
                 </script>
             @endif
 
-            <a class="btn btn-primary" href="{{ route('productos.create') }}">Agregar producto</a>
-            <table class="table table-primary mt-3" id="productos_datatables">
+            <a class="btn btn-primary" href="{{ route('categorias.create') }}">Agregar categoria</a>
+            <table class="table table-primary mt-3" id="categorias_datatables">
                 <thead>
                     <tr>
-                        <th scope="col">producto</th>
-                        <th scope="col">SKU</th>
-                        <th scope="col">Stock</th>
-                        <th scope="col">Precio compra</th>
-                        <th scope="col">Precio venta</th>
-                        <th scope="col">Categoria</th>
+                        <th scope="col">Nombre de la categoria</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($productos as $producto)
+                    @foreach ($categorias as $categoria)
                         <tr class="">
-                            <td scope="row">{{ $producto->nombre_producto }}</td>
-                            <td scope="row">{{ $producto->sku }}</td>
-                            <td scope="row">{{ $producto->stock }}</td>
-                            <td scope="row">${{ $producto->precio_compra }}</td>
-                            <td scope="row">${{ $producto->precio_venta }}</td>
-                            <td scope="row">{{ $producto->categoria->nombre_categoria }}</td>
+                            <td scope="row">{{ $categoria->nombre_categoria }}</td>
                             <td>
                                 <div class="d-flex" style="gap: 7px; flex-wrap:wrap;">
                                     <a class="btn btn-primary"
-                                        href="{{ url('admin/productos/recuperar-producto/' . $producto->id) }}">Editar
-                                    </a>
-                                    <form id="request_submit_producto_{{ $producto->id }}"
-                                        action="{{ route('productos.destroy' ,$producto->id) }}" method="post">
+                                        href="{{ url('/admin/categorias/edit/' . $categoria->id) }}">Editar</a>
+                                    <form id="request_submit_categoria_{{ $categoria->id }}"
+                                        action="{{ url('/admin/categorias/' . $categoria->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-primary">Borrar
                                         </button>
 
                                         <script>
-                                            $('#request_submit_producto_{{ $producto->id }}').submit(function(e) {
+                                            $('#request_submit_categoria_{{ $categoria->id }}').submit(function(e) {
                                                 e.preventDefault();
 
+
                                                 Swal.fire({
-                                                    title: "¿Deseas eliminar esta producto?",
+                                                    title: "¿Deseas eliminar esta categoria?",
                                                     text: "Esta acción es irreversible una vez efectuada.",
                                                     icon: "warning",
                                                     showCancelButton: true,
@@ -84,7 +74,7 @@
 
         </div>
         <script>
-            let table = new DataTable('#productos_datatables', {
+            let table = new DataTable('#ventas_datatables', {
                 "pageLength": 5,
                 layout: {
                     topStart: {
@@ -93,9 +83,9 @@
                 },
                 "language": {
                     "emptyTable": "No hay información",
-                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Productos",
-                    "infoEmpty": "Mostrando 0 a 0 de 0 Productos",
-                    "infoFiltered": "(Filtrado de _MAX_ total Productos)",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Compras",
+                    "infoEmpty": "Mostrando 0 a 0 de 0 Compras",
+                    "infoFiltered": "(Filtrado de _MAX_ total Compras)",
                     "infoPostFix": "",
                     "thousands": ",",
                     "lengthMenu": "Mostrar _MENU_ Generar Reportes",
