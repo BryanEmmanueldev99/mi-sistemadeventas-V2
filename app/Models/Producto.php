@@ -29,4 +29,9 @@ class Producto extends Model
    public function user() {
         return $this->belongsTo(User::class);
    }
+
+   public function compra() 
+   {
+     return $this->belongsTo(Compra::class);
+   }
 }

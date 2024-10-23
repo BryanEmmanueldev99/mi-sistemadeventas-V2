@@ -7,77 +7,55 @@ use Illuminate\Http\Request;
 
 class CompraController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
-        //
+        $compras = Compra::with('user','proveedor','productos');
+        return view('admin.compras.index', compact('compras'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
     {
-        //
+        $cart_compras = session()->get('cart_compras');
+        if(!$cart_compras):
+            $no_session = "Sin sesion";
+            //no hagas nada y muestra solo la vista
+            return view('admin.compras.create', compact('no_session'));
+        else:
+            //destruye la sesion existente y muestra la vista
+            session()->forget('cart_compras');
+            return view('admin.compras.create');
+        endif;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Compra  $compra
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Compra $compra)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Compra  $compra
-     * @return \Illuminate\Http\Response
-     */
+    
     public function edit(Compra $compra)
     {
-        //
+        $cart_compras = session()->get('cart_compras');
+        if(!$cart_compras):
+            //no hagas nada y muestra solo la vista
+            return view('admin.compras.edit');
+        else:
+            //destruye la sesion existente y muestra la vista
+            session()->forget('cart_compras');
+            return view('admin.compras.edit');
+        endif;
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Compra  $compra
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Compra $compra)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Compra  $compra
-     * @return \Illuminate\Http\Response
-     */
+   
     public function destroy(Compra $compra)
     {
         //

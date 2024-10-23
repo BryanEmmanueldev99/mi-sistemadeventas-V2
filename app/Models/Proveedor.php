@@ -17,4 +17,9 @@ class Proveedor extends Model
          'direccion_fiscal_proveedor',
          'empresa_proveedor'
     ];
+
+    public function compras()
+    {
+        return $this->hasMany(Compra::class);
+    }
 }

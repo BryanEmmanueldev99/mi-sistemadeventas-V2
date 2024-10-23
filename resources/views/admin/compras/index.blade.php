@@ -2,7 +2,7 @@
 @section('content')
     @if (session('session_start_usuario'))
         <div class="container p3 mb-3">
-            <h2>Modulo categorias</h2>
+            <h2>Modulo compras</h2>
         </div>
         <div class="table-responsive mt-3">
 
@@ -18,36 +18,36 @@
                 </script>
             @endif
 
-            <a class="btn btn-primary" href="{{ route('categorias.create') }}">Agregar categoria</a>
-            <table class="table table-primary mt-3" id="categorias_datatables">
+            <a class="btn btn-primary" href="{{route('compras.create')}}">Agregar nueva compra</a>
+            <table class="table table-primary mt-3" id="compras_datatables">
                 <thead>
                     <tr>
-                        <th scope="col">Nombre de la categoria</th>
+                        <th scope="col">Nombre de la compra</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($categorias as $categoria)
+                    @foreach ($compras as $compra)
                         <tr class="">
-                            <td scope="row">{{ $categoria->nombre_categoria }}</td>
+                            <td scope="row">{{ $compra->nombre_compra }}</td>
                             <td>
                                 <div class="d-flex" style="gap: 7px; flex-wrap:wrap;">
                                     <a class="btn btn-primary"
-                                        href="{{ url('/admin/categorias/edit/' . $categoria->id) }}">Editar</a>
-                                    <form id="request_submit_categoria_{{ $categoria->id }}"
-                                        action="{{ url('/admin/categorias/' . $categoria->id) }}" method="post">
+                                        href="{{ url('/admin/compras/edit/' . $compra->id) }}">Editar</a>
+                                    <form id="request_submit_compra_{{ $compra->id }}"
+                                        action="{{ url('/admin/compras/' . $compra->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-primary">Borrar
                                         </button>
 
                                         <script>
-                                            $('#request_submit_categoria_{{ $categoria->id }}').submit(function(e) {
+                                            $('#request_submit_compra_{{ $compra->id }}').submit(function(e) {
                                                 e.preventDefault();
 
 
                                                 Swal.fire({
-                                                    title: "¿Deseas eliminar esta categoria?",
+                                                    title: "¿Deseas eliminar esta compra?",
                                                     text: "Esta acción es irreversible una vez efectuada.",
                                                     icon: "warning",
                                                     showCancelButton: true,

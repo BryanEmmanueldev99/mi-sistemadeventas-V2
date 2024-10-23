@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\CompraController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\UserController;
@@ -66,6 +67,10 @@ Route::delete('usuarios/{id}', [UserController::class, 'destroy'])->name('elimin
  Route::get('proveedores/{id}', [ProveedorController::class, 'edit'])->name('proveedor.edit');
  Route::put('proveedores/{id}', [ProveedorController::class, 'update'])->name('proveedor.update');
  Route::delete('proveedores/{id}', [ProveedorController::class, 'destroy'])->name('proveedor.destroy');
+
+//rutas admin proveedores
+Route::get('compras', [CompraController::class, 'index'])->name('compras.index');
+Route::get('compras/create', [CompraController::class, 'create'])->name('compras.create');
 
 });
 

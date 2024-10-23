@@ -44,6 +44,7 @@
             <a class="nav-link" href="{{ route('categorias.index') }}">Categorias</a>
             <a class="nav-link" href="{{ route('productos.index') }}">Productos</a>
             <a class="nav-link" href="{{ route('proveedor.index') }}">Proveedores</a>
+            <a class="nav-link" href="{{ route('compras.index') }}">Compras</a>
         </nav>
 
     </header>
