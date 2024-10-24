@@ -69,11 +69,11 @@
                     <div class="col-md-3">
                         <label for="">Categoria</label>
                         <select class="form-control" name="categoria_id" id="">
-                                @foreach ($categorias as $categoria)
-                                    <option class="form-control" value="{{ $categoria->id }}">
-                                        {{ $categoria->nombre_categoria }}
-                                    </option>
-                                @endforeach
+                            @foreach ($categorias as $categoria)
+                                <option class="form-control" value="{{ $categoria->id }}">
+                                    {{ $categoria->nombre_categoria }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 

@@ -50,9 +50,22 @@ class ProductoController extends Controller
           return view('admin.productos.recuperar_producto', compact('producto'));
     }
 
-    public function update(ProductoStoreRequest $request, $id) {
+    public function update(Request $request, $id) {
+
         $producto = Producto::findOrFail($id);
         $path_producto = $producto->imagen_producto;
+
+        $request->validate([
+          'nombre_producto' => 'required|max:150',
+          'sku' => 'nullable|max:70|unique:productos,sku,'.$producto->id,
+          'descripcion' => 'nullable',
+          'stock' => 'required',
+          'precio_compra' => 'required',
+          'precio_venta' => 'required',
+          'fecha_ingreso' => 'nullable|date',
+          'imagen_producto' => 'nullable',
+          'categoria_id' => 'required|integer'
+         ]);
 
         $producto->nombre_producto = $request->nombre_producto;
         $producto->sku = $request->sku;

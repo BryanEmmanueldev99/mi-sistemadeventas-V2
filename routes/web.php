@@ -6,6 +6,7 @@ use App\Http\Controllers\CompraController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\UserController;
+use App\Models\Compra;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,9 +69,10 @@ Route::delete('usuarios/{id}', [UserController::class, 'destroy'])->name('elimin
  Route::put('proveedores/{id}', [ProveedorController::class, 'update'])->name('proveedor.update');
  Route::delete('proveedores/{id}', [ProveedorController::class, 'destroy'])->name('proveedor.destroy');
 
-//rutas admin proveedores
+//rutas admin compras
 Route::get('compras', [CompraController::class, 'index'])->name('compras.index');
 Route::get('compras/create', [CompraController::class, 'create'])->name('compras.create');
+Route::post('compras/add-item/{id}', [CompraController::class, 'agregar_carro_compras'])->name('compras.agregar_carro_compras');
 
 });
 

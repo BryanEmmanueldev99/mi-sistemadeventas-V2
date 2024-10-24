@@ -25,7 +25,7 @@ class ProductoStoreRequest extends FormRequest
     {
         return [
           'nombre_producto' => 'required|max:150',
-          'sku' => 'nullable|max:70',
+          'sku' => 'nullable|max:70|unique:productos',
           'descripcion' => 'nullable',
           'stock' => 'required',
           'precio_compra' => 'required',
