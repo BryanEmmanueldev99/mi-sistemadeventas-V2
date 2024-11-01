@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Compra;
+use App\Models\OrdenCompra;
 use App\Models\Producto;
+use App\Models\Proveedor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CompraController extends Controller
 {
@@ -17,7 +20,7 @@ class CompraController extends Controller
     public function index()
     {
         $this->session_destroy_compras();
-        $compras = Compra::with('user','proveedor','productos')->get();
+        $compras = Compra::with('user','proveedor')->get();
         return view('admin.compras.index', compact('compras'));
     }
 
@@ -25,9 +28,9 @@ class CompraController extends Controller
     public function create()
     {
         $productos = Producto::with('user','categoria')->get();
-        return view('admin.compras.create', compact('productos')); 
+        $proveedores = Proveedor::get();
+        return view('admin.compras.create', compact('productos','proveedores')); 
     }
-
 
 
     public function agregar_carro_compras(Request $request, $id) {
@@ -114,7 +117,33 @@ class CompraController extends Controller
     
     public function store(Request $request)
     {
-        //
+        // $data = $request->all();
+        // dd($data);
+
+        $cart_compras = session()->get('cart_compras');
+        $user_id = Auth::user()->id;
+        $compra = Compra::create([
+            'nro_compra' => $request->nro_compra,
+            'id_proveedor' => $request->id_proveedor,
+            'fecha_compra' => $request->fecha_compra,
+            'comprobante_compra' => $request->comprobante_compra,
+            'precio_compra' => $request->precio_compra,
+            'cantidad_compra' => $request->cantidad_compra,
+            'proveedor_id' => $request->id_proveedor,
+            'user_id' => $user_id
+        ]);
+
+        foreach (session('cart_compras') as $id => $details) :
+            $precio_producto_orden = $details['precio_compra']  * $details['quantity'];
+            OrdenCompra::create([
+                'cantida_producto_orden' => $details['quantity'],
+                'producto_id' => $id,
+                'precio_producto_orden' => $precio_producto_orden,
+                'compra_id' => $compra->id,
+            ]);
+        endforeach;
+
+        return redirect('admin/compras')->with('success','¡Compra agregada con exito!');
     }
 
     

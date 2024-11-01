@@ -28,7 +28,7 @@
                 <div class="col-md-8 bg-white shadow-sm rounded p-3">
 
                     <h2 class="text-center mb-5">Generar nueva compra</h2>
-                    <p>Llene los datos con cuidado, porfavor.</p>
+                    <p>Busca y selecciona los productos que deseas agregar a la compra.</p>
 
 
 
@@ -39,10 +39,13 @@
                         data-bs-target="#modalProductos_compra">
                         Buscar Productos
                     </button>
-
-
+                @php
+                    $subtotal = 0;
+                    $total = 0;
+                    $total_cantidad = null;
+                 @endphp
                     @if (session('cart_compras'))
-                        <div class="table-responsive mt-4 mb-3">
+                        <div class="table-responsive mt-4 mb-3 h-50">
                             <table class="table table-primary table-sm">
                                 <thead>
                                     <tr>
@@ -57,10 +60,15 @@
                                 </thead>
                                 <tbody>
                                     <tr class="">
-                                    @php
-                                       $subtotal = 0;
-                                    @endphp
+                                   
                                     @foreach (session('cart_compras') as $id => $producto_compra)
+                                     @php 
+                                    $total += $producto_compra['precio_compra'] * $producto_compra['quantity']; 
+
+                                   $total_cantidad += $producto_compra['quantity'];
+                                     
+                                     //$total += $details['precio'] * $details['quantity']; 
+                                     @endphp
                                       <td scope="row">
                                           <picture class="box-producto">
                                               <img class="p_img_compra img-thumbnail" src="/storage/{{ $producto_compra['imagen_producto'] }}"
@@ -69,7 +77,7 @@
                                       </td>
                                       <td>{{ $producto_compra['producto'] }}</td>
                                       <td>{{ $producto_compra['quantity'] }}</td>
-                                      <td>${{ $producto_compra['precio_compra'] * $producto_compra['quantity']}}
+                                      <td>${{ $producto_compra['precio_compra']  * $producto_compra['quantity'] }}
                                       </td>
                                       <td>
                                     <form class="d-flex gap-2"
@@ -77,22 +85,24 @@
                                         method="post">
                                         @csrf
                                         <div class="col-md-3">
-                                          <input class="form-control" type="number"
+                                          <input id="array_compras" min="1" class="form-control" value="1" type="number"
                                             name="cantidad_carrito">
                                         </div>
                                         
                                           <button class="btn btn-primary w-100 rouded-100">Remover producto</button>
-                                        
                                     </form>
                                       </td>
                                     </tr>
                                   @endforeach
                                 </tbody>
                             </table>
+                
                         </div>
                     @else
                         <p class="mt-4">Sin productos agregados</p>
                     @endif
+                    
+                    
 
                     <!-- Modal de productos -->
                     <div class="modal fade" id="modalProductos_compra" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -149,7 +159,7 @@
                                                                 method="post">
                                                                 @csrf
                                                                 <input class="form-control" type="number"
-                                                                    name="cantidad_carrito">
+                                                                    name="cantidad_carrito" value="1" min="1">
                                                                 <button class="btn btn-primary">Agregar</button>
                                                             </form>
                                                         </td>
@@ -158,7 +168,7 @@
                                             </tbody>
                                         </table>
                                         <script>
-                                            let table = new DataTable('#productos_datatables', {
+                                            let table_productos = new DataTable('#productos_datatables', {
                                                 "pageLength": 3,
                                                 layout: {
                                                     topStart: {
@@ -190,12 +200,16 @@
                                                 "autoWidth": true,
                                             });
                                         </script>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
-                    <form action="{{ route('categorias.store') }}" method="post">
+                    
+
+                    <form action="{{ route('compras.store') }}" method="post">
                         @csrf
                 </div>
                 <div class="col-md-4 bg-white shadow-sm rounded p-3">
@@ -206,10 +220,36 @@
                             $tiempo_nro_compra = date('F j, Y, g:i a');
                             $nro_compra = mt_rand() . '_' . date('Y-m-d H:i:s');
                         @endphp
-                        <input class="form-control mb-2" type="text" value="{{ $nro_compra }}" name="nro_compra"
+                        <input class="form-control mb-2" type="text" value="{{ $nro_compra }}" 
                             disabled>
                         <input class="form-control mb-2" type="text" value="{{ $nro_compra }}" name="nro_compra"
                             hidden>
+                    </div>
+
+                    <div class="mb-4">
+                        @include('admin.templates.modal_proveedores')
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="">Fecha de compra</label>
+                        <input class="form-control" type="date" name="fecha_compra" id="">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="">Comprobante de compra</label>
+                        <input class="form-control" type="text" name="comprobante_compra" id="">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="">Total de items</label>
+                        <input class="form-control" type="text" disabled value="{{ $total_cantidad  }}">
+                        <input class="form-control" type="text" name="cantidad_compra" hidden value="{{ $total_cantidad  }}">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="">Total de compra</label>
+                        <input class="form-control" type="text" disabled value="{{ $total  }}">
+                        <input class="form-control" type="text" name="precio_compra" hidden value="{{ $total  }}">
                     </div>
                     <input type="submit" class="btn btn-primary" value="Generar compra">
                 </div>

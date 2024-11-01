@@ -16,7 +16,6 @@ class Compra extends Model
          'fecha_compra',
          'cantidad_compra',
          'user_id',
-         'producto_id',
          'proveedor_id'
     ];
 
@@ -30,8 +29,12 @@ class Compra extends Model
         return $this->belongsTo(Proveedor::class);
     }
 
-    public function productos()
-    {
-        return $this->belongsToMany(Producto::class);
+    // public function productos()
+    // {
+    //     return $this->belongsToMany(Producto::class);
+    // }
+
+    public function ordercompra(){
+        return $this->hasOne(OrdenCompra::class);
     }
 }

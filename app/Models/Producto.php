@@ -30,8 +30,12 @@ class Producto extends Model
         return $this->belongsTo(User::class);
    }
 
-   public function compra() 
-   {
-     return $this->belongsTo(Compra::class);
+  //  public function compra() 
+  //  {
+  //    return $this->belongsTo(Compra::class);
+  //  }
+
+   public function ordercompra(){
+     return $this->hasOne(OrdenCompra::class);
    }
 }

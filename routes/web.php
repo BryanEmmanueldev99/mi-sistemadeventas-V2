@@ -73,6 +73,8 @@ Route::delete('usuarios/{id}', [UserController::class, 'destroy'])->name('elimin
 Route::get('compras', [CompraController::class, 'index'])->name('compras.index');
 Route::get('compras/create', [CompraController::class, 'create'])->name('compras.create');
 Route::post('compras/add-item/{id}', [CompraController::class, 'agregar_carro_compras'])->name('compras.agregar_carro_compras');
+Route::post('compras', [CompraController::class, 'store'])->name('compras.store');
+
 
 });
 
